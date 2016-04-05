@@ -85,6 +85,76 @@ bind "set show-all-if-ambiguous On" # show list automatically, without double ta
 
 # -- Functions
 
+# Update Wifi setings to use Iasi static config 
+ManualWorkAddr () {
+local RED=$(tput setaf 1)
+local GREEN=$(tput setaf 2)
+local NORMAL=$(tput sgr0)
+
+local col=10 # change this to whatever column you want the output to start at
+
+	networksetup -setmanual Wi-Fi 10.220.40.54 255.255.0.0 10.220.0.1
+if [ $? = 0 ]; then
+  printf 'Sucessfull updated IP Addr %s%*s%s' "$GREEN" $col "[OK]" "$NORMAL"
+else
+  printf 'Updating IP Addr failed %s%*s%s' "$RED" $col "[FAIL]" "$NORMAL"
+fi
+
+	networksetup -setdnsservers Wi-Fi 10.220.10.1 10.220.10.2
+
+if [ $? = 0 ]; then
+  printf 'Sucessfull updated IP Addr %s%*s%s' "$GREEN" $col "[OK]" "$NORMAL"
+else
+  printf 'Updating IP Addr failed %s%*s%s' "$RED" $col "[FAIL]" "$NORMAL"
+fi
+
+}
+
+#flush DNS cache
+
+flushDNScache (){
+
+local RED=$(tput setaf 1)
+local GREEN=$(tput setaf 2)
+local NORMAL=$(tput sgr0)
+local col=10 # change this to whatever column you want the output to start at
+
+	sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder;say cache flushed
+
+if [ $? = 0 ]; then
+  printf 'Flush DNS Cache %s%*s%s\n' "$GREEN" $col "[OK]" "$NORMAL"
+else
+  printf 'Flush DNS Cache %s%*s%s' "$RED" $col "[FAIL]" "$NORMAL"
+fi
+
+}
+# Set Wifi settings to use DHCP 
+
+DhcpAddr (){
+local RED=$(tput setaf 1)
+local GREEN=$(tput setaf 2)
+local NORMAL=$(tput sgr0)
+local col=10 # change this to whatever column you want the output to start at
+
+#Set the interface called Wi-Fi to obtain it if it isn’t already
+networksetup -setdhcp Wi-Fi
+
+if [ $? = 0 ]; then
+  printf 'Sucessfull set Wi-Fi to use DHCP %s%*s%s\n' "$GREEN" $col "[OK]" "$NORMAL"
+else
+  printf 'Updating Wi-Fi to use DHCP failed %s%*s%s' "$RED" $col "[FAIL]" "$NORMAL"
+fi
+
+#Set DNS Servers to use the DHCP ones on the Wi-Fi connection 
+networksetup -setdnsservers Wi-Fi
+
+if [ $? = 0 ]; then
+  printf 'Sucessfull updated DNS Servers on Wi-Fi %s%*s%s\n' "$GREEN" $col "[OK]" "$NORMAL"
+else
+  printf 'Failed updating DNS Servers %s%*s%s' "$RED" $col "[FAIL]" "$NORMAL"
+fi
+}
+
 # extracts the given file
 x () {
     if [ -f $1 ] ; then
