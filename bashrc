@@ -35,8 +35,8 @@ fi
 # Aliases (custom)
 alias ..='cd ..'
 alias mvim='/usr/local/bin/mvim -v'
-alias vim='/usr/local/bin/nvim'
-alias vi='/usr/local/bin/nvim'
+alias vim='/usr/local/bin/mvim'
+alias vi='/usr/local/bin/mvim'
 alias ls='ls -GpF' # Mac OSX specific
 alias ll='ls -alGpF' # Mac OSX specific
 
@@ -202,3 +202,9 @@ shopt -s extglob
 
 #include .files when globbing.
 shopt -s dotglob
+
+PATH="/Users/iliec/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/iliec/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/iliec/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/iliec/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/iliec/perl5"; export PERL_MM_OPT;

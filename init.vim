@@ -6,32 +6,26 @@ Plug 'Raimondi/delimitMate'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-vinegar'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'unblevable/quick-scope'  
 Plug 'scrooloose/nerdtree'
 
-Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/vimproc'
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'zchee/deoplete-go', { 'do': 'make'}
-else
-  Plug 'Shougo/neocomplete.vim'
-endif
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'Shougo/neocomplete.vim'
 
 " filetype plugins
 Plug 'vim-ruby/vim-ruby'
 Plug 'elzr/vim-json', {'for' : 'json'}
-Plug 'tejr/vim-tmux', {'for': 'tmux'}
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'fatih/vim-nginx' , {'for' : 'nginx'}
 Plug 'corylanou/vim-present', {'for' : 'present'}
@@ -43,23 +37,6 @@ call plug#end()
 
 " I'm still using Vim from time to time. These needs to enabled so we can make
 " Vim usable again (these are default on NeoVim)
-if !has('nvim')
-  set nocompatible
-  filetype off
-  filetype plugin indent on
-
-  set ttyfast
-  set ttymouse=xterm2
-  set ttyscroll=3
-
-  set laststatus=2
-  set encoding=utf-8              " Set default encoding to UTF-8
-  set autoread                    " Automatically reread changed files without asking me anything
-  set autoindent                  
-  set backspace=indent,eol,start  " Makes backspace key more powerful.
-  set incsearch                   " Shows the match while typing
-  set hlsearch                    " Highlight found searches
-endif
 
 set noerrorbells             " No beeps
 set number                   " Show line numbers
@@ -90,7 +67,6 @@ set clipboard^=unnamedplus
 set lazyredraw          " Wait to redraw
 syntax sync minlines=256
 set synmaxcol=300
-set re=1
 
 if has('persistent_undo')
   set undofile
@@ -99,7 +75,7 @@ endif
 
 if has("gui_macvim")
   " No toolbars, menu or scrollbars in the GUI
-  set guifont=Source\ Code\ Pro\ Light:h12
+  set guifont=Source\ Code\ Pro\ Light:h13     
   set clipboard+=unnamed
   set vb t_vb=
   set guioptions-=m  "no menu
@@ -111,9 +87,10 @@ if has("gui_macvim")
 
   let macvim_skip_colorscheme=1
   " let g:molokai_original=1
-  colorscheme molokai
-  highlight SignColumn guibg=#272822
-
+  "colorscheme molokai
+  "highlight SignColumn guibg=#272822
+  colorscheme solarized
+  set background=light
   " Open goto symbol on current buffer
   nmap <D-r> :MyCtrlPTag<cr>
   imap <D-r> <esc>:MyCtrlPTag<cr>
@@ -161,11 +138,6 @@ if has("gui_macvim")
   imap <D-8> <esc>8gt
   imap <D-9> <esc>9gt
 else
-  if has('!nvim')
-    syntax enable
-    set t_Co=256
-  endif
-
   let g:rehash256 = 1
   set background=dark
   colorscheme molokai
@@ -242,26 +214,6 @@ endif
 map <C-f> :echo expand("%:p")<cr>
 
 " Terminal settings
-if has('nvim')
-  " Leader q to exit terminal mode. Somehow it jumps to the end, so jump to
-  " the top again
-  tnoremap <Leader>q <C-\><C-n>gg<cr>
-
-  " mappings to move out from terminal to other views
-  tnoremap <C-h> <C-\><C-n><C-w>h
-  tnoremap <C-j> <C-\><C-n><C-w>j
-  tnoremap <C-k> <C-\><C-n><C-w>k
-  tnoremap <C-l> <C-\><C-n><C-w>l
-
-  " Open terminal in vertical, horizontal and new tab
-  " nnoremap <leader>tv :vsplit term://zsh<CR>
-  " nnoremap <leader>ts :split term://zsh<CR>
-  " nnoremap <leader>tt :tabnew term://zsh<CR>
-
-  " always start terminal in insert mode
-  autocmd BufWinEnter,WinEnter term://* startinsert
-endif
-
 " Visual linewise up and down by default (and use gj gk to go quicker)
 noremap <Up> gk
 noremap <Down> gj
@@ -340,6 +292,13 @@ nnoremap <leader>ui :<C-u>call <SID>CreateGoDocComment()<CR>
 
 "====================================================
 "===================== PLUGINS ======================
+
+"====================== Markdown =====================
+let g:vim_markdown_emphasis_multiline = 0
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 0
+
 
 " ==================== Fugitive ====================
 vnoremap <leader>gb :Gblame<CR>
